@@ -66,6 +66,54 @@ export default class App extends Component {
         })
     }
 
+    changeCurrentData = (type, isIncrement) => {
+        const newCurrentData = this.state.currentData ? this.state.currentData : {
+                carName: 'none',
+                carNumber: 0,
+                financialPenalty: 0
+        };
+
+        if(type === 'carNumber'){
+            if(isIncrement){
+                newCurrentData.carNumber += 5;
+            }
+            else{
+                newCurrentData.carNumber --;
+            }
+        }
+
+        if(type === 'financialPenalty'){
+            if(isIncrement){
+                newCurrentData.financialPenalty ++;
+            }
+            else if (newCurrentData.financialPenalty < 1){
+                newCurrentData.financialPenalty = 0;
+            }
+            else{
+                newCurrentData.financialPenalty --;
+            }
+        }
+
+        this.setState({
+            currentData: newCurrentData,
+        });
+    };
+
+
+    saveChanges = () => {
+        const { drivers, currentData } = this.state;
+        drivers.push(currentData);
+        this.setState({
+            drivers,
+            modalVisibility: false,
+        });
+    }
+
+    clearCurrentData = () => {
+        this.setState({
+            currentData: "",
+        })
+    }
   render() {
     const { drivers, modalVisibility, currentData } = this.state;
 
@@ -107,7 +155,12 @@ export default class App extends Component {
                 <div className="col">
                     <div className="button btn btn-primary m-2" onClick={this.openModal}>Add a penalty</div>
                     {
-                        modalVisibility ? <Modal closeModal={this.closeModal} currentData={currentData}/> : ""
+                        modalVisibility ? <Modal 
+                            closeModal={this.closeModal} 
+                            currentData={currentData} 
+                            changeCurrentData={this.changeCurrentData}
+                            saveChanges={this.saveChanges}
+                            clearCurrentData={this.clearCurrentData}/> : ""
                     }
                 </div>
             </div>
