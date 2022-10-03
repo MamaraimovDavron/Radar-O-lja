@@ -6,6 +6,7 @@ export default class App extends Component {
     state = {
         drivers: [],
         modalVisibility: false,
+        currentData: "",
     };
 
     componentDidMount(){
@@ -66,7 +67,7 @@ export default class App extends Component {
     }
 
   render() {
-    const { drivers, modalVisibility } = this.state;
+    const { drivers, modalVisibility, currentData } = this.state;
 
     return (
       <div className='main--container'>
@@ -106,7 +107,7 @@ export default class App extends Component {
                 <div className="col">
                     <div className="button btn btn-primary m-2" onClick={this.openModal}>Add a penalty</div>
                     {
-                        modalVisibility ? <Modal closeModal={this.closeModal}/> : ""
+                        modalVisibility ? <Modal closeModal={this.closeModal} currentData={currentData}/> : ""
                     }
                 </div>
             </div>
